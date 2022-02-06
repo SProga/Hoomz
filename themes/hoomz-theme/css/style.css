@@ -61,6 +61,14 @@ ul li {
 	list-style-type: none;
 }
 
+button {
+	cursor: pointer !important;
+}
+
+a {
+	color: #1976d2;
+}
+
 .header {
 	padding: 3rem;
 	background-color: var(--primaryColor);
@@ -124,7 +132,7 @@ ul li {
 .hero {
 	position: relative;
 	min-height: 60rem;
-	background-image: url("./images/hero.png");
+	background-image: url("../images/hero.png");
 	background-size: cover;
 	background-position: center;
 	margin-top: -2rem;
@@ -518,7 +526,7 @@ ul li {
 
 .connect {
 	height: 100%;
-	background-image: url("./images/contact.png");
+	background-image: url("../images/contact.png");
 	background-repeat: no-repeat;
 	background-size: 53% 100%;
 	background-position: left;
@@ -587,9 +595,8 @@ ul li {
 	color: var(--textColor);
 	resize: none;
 }
-.mb-s {
-	margin-bottom: 1rem;
-}
-.my-m {
-	margin: 2rem 0;
+
+footer.footer {
+	padding: 5rem;
+	background-color: var(--primaryColor);
 }

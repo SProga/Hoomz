@@ -128,6 +128,7 @@ get_header();
           'post_type' => 'home'
             ));
 
+            $delay = 1;
             while($hoomz->have_posts()) {
              $hoomz->the_post(); 
              $image = get_field('hoomz_image')['sizes']['medium'];
@@ -142,7 +143,8 @@ get_header();
                  $pool = $pool."Ft";
              }
              ?>
-                <div class="catalog__card">
+                <div class="catalog__card" data-aos="fade-up" data-aos-delay="<?php echo ($delay * 200) ?>"
+                    data-aos-duration="1000">
                     <figure class="catalog__wrapper">
                         <button class="btn--heart"><img class="heart"
                                 src="<?php echo get_theme_file_uri('/images/heart.svg') ?>" alt=""></button>
@@ -167,6 +169,7 @@ get_header();
                     <p class="catalog__card-owner">owned by <span
                             class="highlight-3"><?php echo the_field('hoomz_owner') ?></span></p>
                 </div>
+                <?php $delay++ ?>
                 <?php } ?>
             </div>
             <div class="t-center mt-m">
@@ -177,7 +180,7 @@ get_header();
     </section>
 
 
-    <section class="connect">
+    <section class="connect" data-aos="fade-left" data-aos-duration="1000">
         <div class="container connect__grid">
             <div class="connect__inner-content-left">
                 <div class="connect__text">
