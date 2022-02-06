@@ -1,0 +1,105 @@
+section.signin {
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	min-height: 100vh;
+}
+
+:is(.content-left, .content-right) {
+	flex: 0 0 50%;
+}
+
+.content-left {
+	background-image: url("http://hoomz.local/wp-content/uploads/2022/02/pexels-yura-forrat-10161100-scaled.jpg");
+	background-position: center;
+	background-size: cover;
+}
+
+.form__signup {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	min-height: 40rem;
+}
+.form__signup__group {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	width: 100%;
+	margin: 1.6rem 0;
+	gap: 10px;
+}
+.form__signup__group :is(input:not([type="checkbox"]), label, button, a) {
+	width: 100%;
+	margin: 0 auto;
+}
+.form__signup__group:last-of-type {
+	margin-top: 3rem;
+}
+input[type="checkbox"] {
+	cursor: pointer;
+}
+.form__signup__group :is(label, button, .reset_password),
+.form__inline {
+	font-size: var(--textSizelarger);
+	text-transform: capitalize;
+}
+
+.content-right {
+	display: flex;
+	justify-content: center;
+	padding-top: 10rem;
+}
+.signup_form_input {
+	padding: 1.2rem;
+	border: 1px solid #ccc;
+	font-size: var(--textSize);
+}
+.signup_form_input::-webkit-input-placeholder {
+	font-size: var(--textSize);
+	text-transform: capitalize;
+}
+.signup_form_input::-moz-placeholder {
+	font-size: var(--textSize);
+	text-transform: capitalize;
+}
+.signup_form_input:-ms-input-placeholder {
+	font-size: var(--textSize);
+	text-transform: capitalize;
+}
+.signup_form_input::-ms-input-placeholder {
+	font-size: var(--textSize);
+	text-transform: capitalize;
+}
+.signup_form_input::placeholder {
+	font-size: var(--textSize);
+	text-transform: capitalize;
+}
+
+.signup__title {
+	font-size: var(--headerSize);
+}
+
+.form__inline {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.reset_password {
+	text-align: center;
+}
+button.btn--signin {
+	padding: 1.4rem 3rem;
+	background-color: var(--primaryColorLighter);
+	color: var(--white);
+	border: none;
+	transition: all 0.2s linear;
+}
+button.btn--signin:hover {
+	transform: scale(1.05);
+}

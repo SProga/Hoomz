@@ -65,20 +65,19 @@ get_header();
                     Tour</button>
             </div>
             <div class="contentWrapper">
-                <p class="content active" id="map">
-                    <iframe src="<?php echo $geo ?>" class="single__map"></iframe>
-                </p>
-                <p class="content" id="gallery">
+                <div class="content active" id="map">
+                    <div class="themap"><?php echo do_shortcode($geo) ?></div>
+                </div>
+                <div class="content" id="gallery">
                     <span class="no-images">
                         <img class="no-images__image" src="<?php echo get_theme_file_uri("/images/no-images.svg"); ?>"
                             alt="">
                         No Photos to Show
                     </span>
-
-                </p>
-                <p class="content" id="schedule">
+                </div>
+                <div class="content" id="schedule">
                     <!-- to be filled in -->
-                </p>
+                </div>
             </div>
         </div>
 

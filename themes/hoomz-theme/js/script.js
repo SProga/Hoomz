@@ -4,7 +4,15 @@ const contents = document.querySelectorAll(".content");
 
 tabs.onclick = (e) => {
 	const id = e.target.dataset.id;
+
 	if (id) {
+		// if (id !== "map") {
+		// 	let themap = document.querySelector(".themap");
+		// 	themap.style.cssText = `display:none`;
+		// } else {
+		// 	let themap = document.querySelector(".themap");
+		// 	themap.style.cssText = `display:block`;
+		// }
 		tabButton.forEach((btn) => {
 			btn.classList.remove("active");
 		});
