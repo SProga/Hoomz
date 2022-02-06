@@ -143,7 +143,8 @@ get_header();
                  $pool = $pool."Ft";
              }
              ?>
-                <div class="catalog__card" data-aos="fade-up" data-aos-delay="<?php echo ($delay * 400) ?>">
+                <div class="catalog__card" data-aos="fade-up" data-aos-delay="<?php echo ($delay * 200) ?>"
+                    data-aos-duration="1000">
                     <figure class="catalog__wrapper">
                         <button class="btn--heart"><img class="heart"
                                 src="<?php echo get_theme_file_uri('/images/heart.svg') ?>" alt=""></button>
@@ -179,7 +180,7 @@ get_header();
     </section>
 
 
-    <section class="connect" data-aos="fade-left">
+    <section class="connect" data-aos="fade-left" data-aos-duration="1000">
         <div class="container connect__grid">
             <div class="connect__inner-content-left">
                 <div class="connect__text">

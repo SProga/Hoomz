@@ -65,6 +65,10 @@ button {
 	cursor: pointer !important;
 }
 
+a {
+	color: #1976d2;
+}
+
 .header {
 	padding: 3rem;
 	background-color: var(--primaryColor);

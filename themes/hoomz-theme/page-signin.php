@@ -38,7 +38,7 @@ get_header();
                             <button class="btn--signin">Sign In</button>
                         </div>
                         <div class="form__signup__group">
-                            <p>Don't have an account? </p> <a href="/">Sign Up</a>
+                            <p class="no-account-text">Don't have an account? <a href="/">Sign Up</a></p>
                         </div>
                     </form>
                 </div>

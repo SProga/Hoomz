@@ -78,6 +78,7 @@ input[type="checkbox"] {
 	padding: 1.2rem;
 	border: 1px solid #ccc;
 	font-size: var(--textSize);
+	font-family: inherit;
 }
 .signup_form_input::-webkit-input-placeholder {
 	font-size: var(--textSize);
@@ -123,4 +124,9 @@ button.btn--signin {
 }
 button.btn--signin:hover {
 	transform: scale(1.05);
+}
+.no-account-text {
+	text-align: center;
+	color: var(--textColorLight);
+	font-size: var(--textSize);
 }
