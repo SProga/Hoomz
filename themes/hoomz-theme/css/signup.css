@@ -7,7 +7,7 @@ section.signin {
 }
 
 .signin__title {
-	font-size: calc(var(--headerSize) * 2);
+	font-size: calc(var(--headerSize) * 1.8);
 	word-wrap: break-word;
 	text-align: left;
 	color: var(--white);
@@ -21,7 +21,7 @@ section.signin {
 .overlay {
 	background-image: url("http://hoomz.local/wp-content/uploads/2022/02/pexels-yura-forrat-10161100-scaled.jpg");
 	background-position: left;
-	background-size: 50% 100vh;
+	background-size: 50% 100%;
 	height: 100vh;
 	background-repeat: no-repeat;
 }
@@ -41,6 +41,7 @@ section.signin {
 	display: flex;
 	padding-top: 10rem;
 	justify-content: flex-end;
+	flex-wrap: wrap;
 }
 
 .form__signup {
@@ -129,4 +130,13 @@ button.btn--signin:hover {
 	text-align: center;
 	color: var(--textColorLight);
 	font-size: var(--textSize);
+}
+
+@media only screen and (max-width: 57em) {
+	section.signin {
+		min-height: 110vh;
+	}
+	.overlay {
+		height: 110vh;
+	}
 }

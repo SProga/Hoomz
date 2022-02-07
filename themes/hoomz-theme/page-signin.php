@@ -13,7 +13,7 @@ get_header();
                 </div>
                 <div class="content-right">
                     <form action="#" class="form__signup" data-aos="zoom-in">
-                        <h1 class="signup__title"><span class="highlight-colored">SignIn</span> to Hoomz</h1>
+                        <h1 class="signup__title"><span class="highlight-colored">SignIn</span> Hoomz</h1>
                         <div class="form__signup__group">
                             <label for="username">Username</label>
                             <input type="text" name="username" placeholder="username" id="username"

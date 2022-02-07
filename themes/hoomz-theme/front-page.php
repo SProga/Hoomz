@@ -143,7 +143,7 @@ get_header();
                  $pool = $pool."Ft";
              }
              ?>
-                <div class="catalog__card" data-aos="fade-up" data-aos-delay="<?php echo ($delay * 200) ?>"
+                <div class="catalog__card" data-aos="fade-up" data-aos-delay="<?php echo ($delay * 150) ?>"
                     data-aos-duration="1000">
                     <figure class="catalog__wrapper">
                         <button class="btn--heart"><img class="heart"
