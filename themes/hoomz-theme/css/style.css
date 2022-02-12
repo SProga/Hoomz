@@ -412,11 +412,16 @@ a {
 .catalog {
 	padding-top: 15rem;
 }
+.archive-catalog {
+	padding: 10rem 0;
+}
+
 .catalog__cards {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: flex-start;
 	flex-wrap: wrap;
 	padding-top: 2rem;
+	gap: 3.33333333%;
 }
 .catalog__card {
 	position: relative;
@@ -425,6 +430,11 @@ a {
 	border: 1px solid rgb(221, 221, 221);
 	text-align: center;
 	box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+	margin-bottom: 2rem;
+}
+
+.current-menu-item {
+	color: #81bfb9;
 }
 
 .catalog__wrapper {

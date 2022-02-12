@@ -37,6 +37,10 @@ get_header();
                         <div class="form__signup__group">
                             <button class="btn--signin">Sign In</button>
                         </div>
+                        <div class="form__signup__group-inline">
+                            <a href="/"><img src="<?php echo get_theme_file_uri('/images/facebook.svg'); ?>" alt=""></a>
+                            <a href="/"><img src="<?php echo get_theme_file_uri('/images/google.svg'); ?>" alt=""></a>
+                        </div>
                         <div class="form__signup__group">
                             <p class="no-account-text">Don't have an account? <a href="/">Sign Up</a></p>
                         </div>

@@ -125,7 +125,7 @@ get_header();
                 <?php 
         $hoomz  = new WP_Query(array(
           'posts_per_page' => 3,
-          'post_type' => 'home'
+          'post_type' => 'hoom'
             ));
 
             $delay = 1;
@@ -149,7 +149,8 @@ get_header();
                         <button class="btn--heart"><img class="heart"
                                 src="<?php echo get_theme_file_uri('/images/heart.svg') ?>" alt=""></button>
                         <img class="catalog__card-image" src="<?php echo $image ?>" alt="">
-                        <h2 class="catalog__card-location"><?php the_field('hoomz_location') ?></h2>
+                        <h2 class="catalog__card-location">
+                            <?php the_field('hoomz_location') ?>, <?php the_field('hoomz_parish') ?></h2>
                     </figure>
                     <p class="catalog__card-price">$<?php echo number_format(get_field('hoomz_price')) ?></p>
                     <div class="catalog__card-list">
@@ -173,7 +174,7 @@ get_header();
                 <?php } ?>
             </div>
             <div class="t-center mt-m">
-                <a class="btn--viewMore" href="">View More Hoomz</a>
+                <a class="btn--viewMore" href="<?php echo get_post_type_archive_link('hoom'); ?>">View More Hoomz</a>
             </div>
 
         </div>
