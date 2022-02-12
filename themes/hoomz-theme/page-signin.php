@@ -13,7 +13,7 @@ get_header();
                 </div>
                 <div class="content-right">
                     <form action="#" class="form__signup" data-aos="zoom-in">
-                        <h1 class="signup__title"><span class="highlight-colored">SignIn</span> to Hoomz</h1>
+                        <h1 class="signup__title"><span class="highlight-colored">SignIn</span> Hoomz</h1>
                         <div class="form__signup__group">
                             <label for="username">Username</label>
                             <input type="text" name="username" placeholder="username" id="username"
@@ -36,6 +36,10 @@ get_header();
 
                         <div class="form__signup__group">
                             <button class="btn--signin">Sign In</button>
+                        </div>
+                        <div class="form__signup__group-inline">
+                            <a href="/"><img src="<?php echo get_theme_file_uri('/images/facebook.svg'); ?>" alt=""></a>
+                            <a href="/"><img src="<?php echo get_theme_file_uri('/images/google.svg'); ?>" alt=""></a>
                         </div>
                         <div class="form__signup__group">
                             <p class="no-account-text">Don't have an account? <a href="/">Sign Up</a></p>

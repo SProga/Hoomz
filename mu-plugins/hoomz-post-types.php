@@ -2,11 +2,12 @@
 
 
 function hoomz_post_type() {
-    register_post_type('home',array(
+    register_post_type('hoom',array(
         'supports' => array('title','editor','excerpt'),
+        'show_in_rest' => true,
+        'has_archive' => true,
         'rewrite'=>array('slug' => 'homes'), 
         'public'=>true,
-        'public' => true,
         'labels' =>array(
             'name' => 'Homes',
 	    'add_new_item' => 'Add New Home',

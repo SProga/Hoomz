@@ -16,9 +16,10 @@
                 <a href="<?php echo site_url("/")?>"><img src="<?php echo get_theme_file_uri("/images/logo.svg") ?>"
                         alt=""></a>
                 <div class="navigation__right">
-                    <a href="<?php echo site_url("/")?>" class="nav__link">Home</a>
+                    <a href="<?php echo site_url("/")?>"
+                        class="<?php if(is_page('home')) echo 'current-menu-item' ?> nav__link">Home</a>
                     <a href="#" class="nav__link">Services</a>
-                    <a href="#" class="nav__link">Discover</a>
+                    <a href="<?php echo get_post_type_archive_link('hoom'); ?>" class="nav__link">Discover</a>
                     <a href="#" class="nav__link">Testimonials</a>
                     <a href="<?php echo site_url("/signin")?>" class="btn btn--nav nav__link">Sign in</a>
                 </div>

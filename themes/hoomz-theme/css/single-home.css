@@ -32,7 +32,7 @@ p.single__para {
 
 .wrapper {
 	width: 100%;
-	margin-top: 3rem;
+	margin: 3rem 0 10rem;
 	background-color: white;
 	border-radius: 10px;
 	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
