@@ -1,0 +1,10 @@
+
+// add_filter( 'script_loader_tag', 'add_module_to_script', 10, 3 );
+ 
+// function add_module_to_script( $tag, $handle, $src ) {
+//     if ( 'hoomz_script' === $handle ) {
+//         $tag = '<script type="module" src="' . esc_url( $src ) . '" id="hoomz_script" ></script>';
+//     }
+ 
+//     return $tag;
+// }
