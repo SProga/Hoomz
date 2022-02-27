@@ -19,7 +19,8 @@
                     <a href="<?php echo site_url("/")?>"
                         class="<?php if(is_page('home')) echo 'current-menu-item' ?> nav__link">Home</a>
                     <a href="#" class="nav__link">Services</a>
-                    <a href="<?php echo get_post_type_archive_link('hoom'); ?>" class="nav__link">Discover</a>
+                    <a href="<?php echo get_post_type_archive_link('hoom'); ?>"
+                        class="<?php if(get_post_type() == "hoom") echo 'current-menu-item' ?> nav__link">Discover</a>
                     <a href="#" class="nav__link">Testimonials</a>
                     <a href="<?php echo site_url("/signin")?>" class="btn btn--nav nav__link">Sign in</a>
                 </div>
