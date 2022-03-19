@@ -1,9 +1,37 @@
 <?php 
 get_header(); 
+
+
+global $user_ID;
+global $wpdb;
+
 ?>
 
-
 <main>
+
+    <?php if(!$user_ID) { 
+        
+        if($_POST){
+            $username = $wpdb->escape($_POST["username"]);
+            $password = $wpdb->escape($_POST["password"]);
+
+            $login_array = array();
+            $login_array["user_login"] = $username;
+            $login_array["user_password"] = $password;
+            $login_array['remember'] = false;
+
+           $verify_user =  wp_signon($login_array,true);
+
+           if(!s_wp_error($verify_user)) {
+               
+           }
+
+        } else {
+            
+        }
+
+        
+    ?>
     <section class="signin">
         <div class="overlay">
             <div class="container flex-container">
@@ -48,10 +76,14 @@ get_header();
                 </div>
             </div>
         </div>
-
-
     </section>
+
+
+    <?php   } else { ?>
+
+    <?php }  ?>
 </main>
+
 
 
 <?php
