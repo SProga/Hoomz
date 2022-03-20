@@ -29,6 +29,23 @@ function hoomz_features() {
  
 }
 
+function redirect_to_login() {
+        wp_redirect(site_url()."/signin");
+        exit;
+}
+
+function fn_redirect_wp_admin() {
+    global $pagenow;
+
+
+    if($pagenow == 'wp-login.php' && $_GET['action'] != 'logout') {
+        wp_redirect(home_url() . "/signin");
+        exit;
+    }
+}
+
+add_action('init','fn_redirect_wp_admin');
+add_action("wp_logout","redirect_to_login");
 add_action('after_setup_theme','hoomz_features');
 
 ?>

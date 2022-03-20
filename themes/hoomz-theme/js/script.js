@@ -2,6 +2,20 @@ jQuery(document).ready(function ($) {
 	const tabs = document.querySelector(".wrapper");
 	const tabButton = document.querySelectorAll(".tab-button");
 	const contents = document.querySelectorAll(".content");
+	const image_dir =
+		window.location.href + "/wp-content/themes/hoomz-theme/images/";
+	const heroImages = ["hero.png", "Indoor.png", "Indoor-2.png"];
+
+	var i = 0;
+	setInterval(() => {
+		i = (i + 1) % heroImages.length;
+		$(".hero")
+			.css({
+				"background-image": `url(${image_dir}/${heroImages[i]})`,
+				opacity: "0.7",
+			})
+			.animate({ opacity: 1 });
+	}, 10000);
 
 	if (tabs) {
 		tabs.onclick = (e) => {
@@ -43,10 +57,13 @@ jQuery(document).ready(function ($) {
 			location,
 		};
 
+		console.log("send", data);
+
 		let url = hoomzData.root_url + "/wp-json/hoomz/v1/search";
 
 		fetch(url, {
 			method: "GET",
+			data,
 		})
 			.then((res) => res.json())
 			.then((res) => console.log(res));

@@ -91,8 +91,12 @@ get_header();
                 ?>
                 <div class="catalog__card" data-aos="fade-up" data-aos-duration="1000">
                     <figure class="catalog__wrapper">
+                        <?php if (is_user_logged_in()) { ?>
                         <button class="btn--heart"><img class="heart"
-                                src="<?php echo get_theme_file_uri('/images/heart.svg') ?>" alt=""></button>
+                                src="<?php echo get_theme_file_uri('/images/heart.svg') ?>" alt="">
+                        </button>
+                        <?php } ?>
+
                         <img class="catalog__card-image" src="<?php echo $image ?>" alt="">
                         <h2 class="catalog__card-location">
                             <?php the_field('hoomz_location') ?>, <?php the_field('hoomz_parish') ?></h2>

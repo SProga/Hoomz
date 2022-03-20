@@ -1,37 +1,29 @@
-<?php 
-get_header(); 
-
+<?php
 
 global $user_ID;
 global $wpdb;
 
-?>
 
-<main>
-
-    <?php if(!$user_ID) { 
-        
+if(!$user_ID) {    
         if($_POST){
             $username = $wpdb->escape($_POST["username"]);
             $password = $wpdb->escape($_POST["password"]);
-
+            $remember = $_POST['remember'];
             $login_array = array();
             $login_array["user_login"] = $username;
             $login_array["user_password"] = $password;
-            $login_array['remember'] = false;
+            $login_array['remember'] = $remember;
 
            $verify_user =  wp_signon($login_array,true);
 
-           if(!s_wp_error($verify_user)) {
-               
+           if(!is_wp_error($verify_user)) {
+              echo "<script> window.location = '".site_url()."'</script>";
            }
 
         } else {
-            
-        }
-
-        
-    ?>
+            get_header(); 
+            ?>
+<main>
     <section class="signin">
         <div class="overlay">
             <div class="container flex-container">
@@ -40,7 +32,7 @@ global $wpdb;
                             class="highlight-blue">#1</span> Realtors In Barbados</h1>
                 </div>
                 <div class="content-right">
-                    <form action="#" class="form__signup" data-aos="zoom-in">
+                    <form action="#" class="form__signup" data-aos="zoom-in" method="POST">
                         <h1 class="signup__title"><span class="highlight-colored">SignIn</span> Hoomz</h1>
                         <div class="form__signup__group">
                             <label for="username">Username</label>
@@ -56,7 +48,7 @@ global $wpdb;
 
                         <div class="form__inline">
                             <span>
-                                <input type="checkbox" name="rememberMe" id="remember_me">
+                                <input type="checkbox" name="remember" id="remember_me">
                                 <label for="remember_me">Remember Me</label>
                             </span>
                             <a href="#" class="reset_password">Forgot Password ?</a>
@@ -77,15 +69,12 @@ global $wpdb;
             </div>
         </div>
     </section>
-
-
-    <?php   } else { ?>
-
-    <?php }  ?>
 </main>
 
+<?php 
+    get_footer();
+    } 
+}  
 
 
-<?php
-get_footer();
 ?>

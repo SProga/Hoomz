@@ -70,8 +70,10 @@ a {
 }
 
 .header {
+	position: relative;
 	padding: 3rem;
 	background-color: var(--primaryColor);
+	z-index: 99999;
 }
 .container {
 	max-width: 114rem;
@@ -128,6 +130,7 @@ a {
 	background-size: cover;
 	background-position: center;
 	margin-top: -2rem;
+	overflow: hidden;
 }
 
 .hero__content {
@@ -640,8 +643,14 @@ footer.footer {
 }
 .form__filter {
 	display: flex;
-	flex: 0 0 90%;
+	flex: 1;
 }
+
+.hoomz_filter .form__group .form__input {
+	width: 80%;
+	min-width: 100px;
+}
+
 .custom_filter {
 	font-size: 3rem;
 	margin: 0rem 0 2rem 0;
