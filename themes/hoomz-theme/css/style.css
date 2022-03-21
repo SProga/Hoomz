@@ -660,3 +660,23 @@ footer.footer {
 .fa-filter {
 	color: var(--complimentaryColorDarker);
 }
+@media only screen and (max-width: 1200px) {
+	.connect {
+		background-size: cover;
+	}
+
+	.connect__grid {
+		display: flex;
+		flex-direction: column;
+	}
+	.connect__grid {
+		text-align: center;
+	}
+	.connect__form__title {
+		color: var(--white);
+	}
+	.connect__paragraph {
+		text-align: center;
+		margin: 0 auto;
+	}
+}
