@@ -91,6 +91,10 @@ a {
 	margin: 0 1rem;
 }
 
+a.nav__link:not(.btn):hover {
+	color: var(--primaryColorLighter);
+}
+
 .btn {
 	display: inline-block;
 	border: 1px solid var(--white);
@@ -98,6 +102,7 @@ a {
 	cursor: pointer;
 	text-decoration: none;
 	font-size: var(--textSize);
+	text-transform: capitalize;
 }
 .btn--view {
 	position: relative;
@@ -665,13 +670,18 @@ footer.footer {
 
 .hoomz_empty {
 	min-height: 50vh;
-	display: grid;
-	justify-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 100%;
 }
 .hoomz_empty-text {
+	display: inline;
 	font-size: 4rem;
-	text-align: center;
+}
+.hoomz_empty-img {
+	margin-top: 4rem;
+	width: 128px;
 }
 
 @media only screen and (max-width: 1200px) {

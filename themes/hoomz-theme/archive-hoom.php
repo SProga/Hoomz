@@ -7,6 +7,7 @@ get_header();
 $select_types = get_field_object('hoomz_type');
 $select_parish = get_field_object('hoomz_parish');
 $select_cat = get_field_object('hoomz_category');
+
 ?>
 
 <main class="archive_hoomz">
@@ -121,6 +122,8 @@ $select_cat = get_field_object('hoomz_category');
                 if(!$hoomz->have_posts()) { ?>
                 <div class="hoomz_empty">
                     <h1 class="hoomz_empty-text">No matching Hoomz were found.</h1>
+                    <img class="hoomz_empty-img" src="<?php echo get_theme_file_uri('/images/embarrassed.png'); ?>">
+                    <button class="btn btn--read mt-l">load all hoomz</button>
                 </div>
                 <?php } else {
                 while($hoomz->have_posts()) {
@@ -130,6 +133,7 @@ $select_cat = get_field_object('hoomz_category');
                 $bathrooms = get_field('hoomz_bathrooms');
                 $sqfeet = get_field('hoomz_sqfeet');
                 $pool = get_field('hoomz_pool');
+                $type = get_field('hoomz_type');
 
                 if($pool == 0) {
                 $pool = "none";
@@ -163,7 +167,7 @@ $select_cat = get_field_object('hoomz_category');
                         <p><img src="<?php echo get_theme_file_uri('/images/pool.svg') ?>" alt=""><span>&#183;</span>
                             <?php echo $pool ?></p>
                     </div>
-                    <a class="btn btn--buy mt-xs" href="<?php the_permalink(); ?>">Buy home</a>
+                    <a class="btn btn--buy mt-xs" href="<?php the_permalink(); ?>"><?php echo $type ?> home</a>
                     <p class="catalog__card-owner">owned by <span
                             class="highlight-3"><?php echo the_field('hoomz_owner') ?></span></p>
                 </div>
@@ -178,6 +182,7 @@ $select_cat = get_field_object('hoomz_category');
 
 
 </main>
+
 
 
 <?php

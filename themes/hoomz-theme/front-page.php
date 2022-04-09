@@ -1,12 +1,22 @@
 <?php 
 get_header(); 
 ?>
+
+<?php 
+$select_type = get_field_object('field_6251b9b04b07b');
+$select_parish = get_field_object('field_62080899d4167');
+$select_cat = get_field_object('field_6251b9047d29d');
+
+?>
+
+
+
 <div class="hero">
     <!-- <div class="hero__overlay"></div> -->
     <div class="container hero__content">
         <h1 class="h-title"><span class="highlight">Investing</span> In Your Future?</h1>
         <p class="h-subtitle mt-s">Start with a beautiful Home .</p>
-        <a href="#" class="btn btn--view mt-l">View homes</a>
+        <a href="<?php echo get_post_type_archive_link('hoom'); ?>" class="btn btn--view mt-l">View homes</a>
     </div>
 </div>
 
@@ -44,45 +54,48 @@ get_header();
         </div>
     </section>
 
+
+
+
     <section class="hoomz-filter">
         <div class="container">
             <h1 class="t-center d-text">Looking For a Specific Home ?</h1>
             <h2 class="t-center d-subtext-light mt-s">Filter <span class="highlight">Hoomz</h2>
             <div class="hoomz__search">
                 <div class="hoomz__search-filter">
-                    <span class="search-filter filter-active">Rent</span>
-                    <span class="search-filter">Buy</span>
-                    <span class="search-filter">Sell</span>
+                    <span class="search-filter filter-active" data-type="rent">Rent</span>
+                    <span class="search-filter" data-type="buy">Buy</span>
                 </div>
-                <form class="hoomz_form">
+                <form class="hoomz_form" action="<?php echo get_post_type_archive_link('hoom'); ?>">
+                    <input type="hidden" class="search-type" name="type" />
                     <div class="form__group">
                         <label for="location" class="form__label">location</label>
                         <select name="location" id="location" class="form__input">
-                            <option value="stphilip">st.philip</option>
-                            <option value="christchurch">christ church</option>
+                            <option value="none" selected disabled hidden>Select a parish</option>
+                            <?php foreach($select_parish['choices'] as $choice) { ?>
+                            <option value="<?php echo $choice ?>"><?php echo $choice ?></option>
+                            <?php  } ?>
                         </select>
                     </div>
                     <div class="form__group">
-                        <label for="type" class="form__label">type</label>
-                        <select name="type" id="type" class="form__input">
-                            <option value="luxury">luxury</option>
-                            <option value="townhouse">town house</option>
-                            <option value="appartments">appartment</option>
-                            <option value="cottage">cottage</option>
-                            <option value="beachhouse">beach house</option>
-                            <option value="farmhouse">farm house</option>
-                            <option value="any">any</option>
+                        <label for="category" class="form__label">category</label>
+                        <select name="category" id="type" class="form__input">
+                            <option value="none" selected disabled hidden>Select a category</option>
+                            <?php foreach($select_cat['choices'] as $choice) { ?>
+                            <option value="<?php echo $choice ?>"><?php echo $choice ?></option>
+                            <?php  } ?>
                         </select>
                     </div>
                     <div class="form__group">
                         <label for="price" class="form__label">price</label>
                         <select name="price" id="type" class="form__input">
-                            <option value=">100">> $100,000 </option>
-                            <option value="<100">
+                            <option value="none" selected disabled hidden>Select a price</option>
+                            <option value="> 10000">> $100,000 </option>
+                            <option value="< 10000">
                                 < $100,000 </option>
-                            <option value=">500">
+                            <option value="> 20000">
                                 > $500,000 </option>
-                            <option value="<500">
+                            <option value="< 20000">
                                 < $500,000 </option>
                         </select>
                     </div>
@@ -115,6 +128,7 @@ get_header();
         </div>
     </section>
 
+
     <section class="catalog">
         <div class="container">
             <div class="t-center">
@@ -136,12 +150,14 @@ get_header();
              $bathrooms = get_field('hoomz_bathrooms');
              $sqfeet = get_field('hoomz_sqfeet');
              $pool = get_field('hoomz_pool');
+             $type = get_field('hoomz_type');
 
              if($pool == 0) {
                  $pool = "none";
              }else {
                  $pool = $pool."Ft";
              }
+
              ?>
                 <div class="catalog__card" data-aos="fade-up" data-aos-delay="<?php echo ($delay * 150) ?>"
                     data-aos-duration="1000">
@@ -170,7 +186,7 @@ get_header();
                         <p><img src="<?php echo get_theme_file_uri('/images/pool.svg') ?>" alt=""><span>&#183;</span>
                             <?php echo $pool ?></p>
                     </div>
-                    <a class="btn btn--buy mt-xs" href="<?php the_permalink(); ?>">Buy home</a>
+                    <a class="btn btn--buy mt-xs" href="<?php the_permalink(); ?>"><?php echo $type ?> home</a>
                     <p class="catalog__card-owner">owned by <span
                             class="highlight-3"><?php echo the_field('hoomz_owner') ?></span></p>
                 </div>
@@ -223,6 +239,8 @@ get_header();
 
 
 </main>
+
+
 
 
 <?php

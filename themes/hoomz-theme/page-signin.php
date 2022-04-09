@@ -8,16 +8,19 @@ if(!$user_ID) {
         if($_POST){
             $username = $wpdb->escape($_POST["username"]);
             $password = $wpdb->escape($_POST["password"]);
-            $remember = $_POST['remember'];
             $login_array = array();
             $login_array["user_login"] = $username;
             $login_array["user_password"] = $password;
-            // $login_array['remember'] = $remember;
+          
+            if(isset($_POST['remember'])){
+                $login_array['remember'] =$_POST['remember'];
+            }
+          
 
            $verify_user =  wp_signon($login_array,false);
         
            if(!is_wp_error($verify_user)) {
-            wp_set_current_user( $user->ID, $username);
+            wp_set_current_user($user_ID, $username);
             do_action('set_current_user');
             echo "<script> window.location = '".site_url()."'</script>";
             exit();

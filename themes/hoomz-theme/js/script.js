@@ -5,6 +5,17 @@ jQuery(document).ready(function ($) {
 	const image_dir =
 		window.location.href + "/wp-content/themes/hoomz-theme/images/";
 	const heroImages = ["hero.png", "Indoor.png", "Indoor-2.png"];
+	const $bin_filter = $(".search-filter");
+	const $type = $(".search-type");
+
+	console.log($bin_filter);
+
+	$($bin_filter).on("click", function () {
+		$($bin_filter).removeClass("filter-active");
+		$(this).addClass("filter-active");
+		var choice = $(this).data("type");
+		$($type).val(choice);
+	});
 
 	var i = 0;
 	setInterval(() => {

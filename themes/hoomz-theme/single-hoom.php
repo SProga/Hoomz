@@ -1,6 +1,12 @@
 <?php 
 get_header(); 
+
+
+
 ?>
+
+
+
 <main>
 
     <?php 

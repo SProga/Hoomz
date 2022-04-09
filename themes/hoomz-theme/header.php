@@ -22,6 +22,9 @@
                     <a href="<?php echo get_post_type_archive_link('hoom'); ?>"
                         class="<?php if(get_post_type() == "hoom") echo 'current-menu-item' ?> nav__link">Discover</a>
                     <a href="#" class="nav__link">Testimonials</a>
+                    <?php if (is_user_logged_in()) { ?>
+                    <a href="#" class="nav__link">Sell</a>
+                    <?php } ?>
                     <?php if (!is_user_logged_in()) { ?>
                     <a href="<?php echo site_url("/signin")?>" class="btn btn--nav nav__link">Sign in</a>
                     <?php } else { ?>
