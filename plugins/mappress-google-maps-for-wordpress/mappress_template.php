@@ -65,14 +65,14 @@ class Mappress_Template extends Mappress_Obj {
 		$name = (isset($_GET['name'])) ? $_GET['name'] : null;
 		$filename = basename($name) . '.php';
 		$filepath = get_stylesheet_directory() . '/' . $filename;
-		$html = @file_get_contents($filepath);
+		$html = (file_exists($filepath)) ? @file_get_contents($filepath) : null;
 
 		// Verify legitimate path
 		$standard_path = realpath(Mappress::$basedir . "/templates/$filename");
 		if (strpos($standard_path, realpath(Mappress::$basedir)) !== 0)
 			Mappress::ajax_response('Invalid template path');
 
-		$standard = @file_get_contents($standard_path);
+		$standard = (file_exists($standard_path)) ? file_get_contents($standard_path) : null;
 
 		if (!$standard)
 			Mappress::ajax_response('Invalid template');
@@ -94,7 +94,14 @@ class Mappress_Template extends Mappress_Obj {
 		if (!current_user_can('manage_options'))
 			Mappress::ajax_response('Not authorized');
 
-		$name = (isset($_POST['name'])) ? $_POST['name'] : null;
+		if ((defined('DISALLOW_FILE_EDIT') && DISALLOW_FILE_EDIT) || defined('DISALLOW_FILE_MODS') && DISALLOW_FILE_MODS)
+			Mappress::ajax_response('Unable to save, DISALLOW_FILE_EDIT or DISALLOW_FILE_MODS has been set in wp-config');
+
+		if (!current_user_can('unfiltered_html'))
+			Mappress::ajax_response('Not authorized: DISALLOW_UNFILTERED_HTML is set in wp-config.php');
+
+		$name = (isset($_POST['name'])) ? basename($_POST['name']) : null;
+
 		$content = (isset($_POST['content'])) ? stripslashes($_POST['content']) : null;
 		$filepath = get_stylesheet_directory() . '/' . $name . '.php';
 

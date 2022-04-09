@@ -5,7 +5,7 @@ Tags: maps, google maps, map, map markers, google map, leaflet maps, leaflet map
 Requires at least: 5.3
 Requires PHP: 5.6
 Tested up to: 5.9
-Stable tag: 2.73.10
+Stable tag: 2.75
 
 == Description ==
 MapPress is the easiest way to add beautiful interactive Google and Leaflet maps to WordPress.
@@ -88,6 +88,58 @@ Please see the plugin documentation pages:
 1. Follow the installation instructions to install the new version
 
 == Changelog ==
+
+= 2.75 =
+* Changed: completed removal of obsolete Algolia geocoder
+* Changed: updated JavaScript: map editor, POI editor, POI list, directions, map menu, map picker and settings
+* Changed: clustering libraries sourced from CDN
+
+= 2.74.3 =
+* Fixed: removed import menu from free version
+* Fixed: removed french translation from plugin directory
+
+= 2.74.2 =
+* Fixed: custom field geocoding not working
+
+= 2.74.1 =
+* Fixed: option screen alignment wrong for some options
+* Fixed: travel line animation setting not saving properly
+
+= 2.74 =
+* Added: option to connect POIs with lines, for travel blogs, etc.  Lines can be enabled/disabled in the settings or with the shortcode: [mappress lines="true"]
+* Added: new filters form using AJAX
+* Added: import screen for importing maps from CSV files
+* Changed: geocoding custom fields now use a datalist dropdown for easier entry
+* Fixed: Leaflet popup not centered when POI is opened from off-screen
+* Fixed: translations not available for JavaScript texts
+* Fixed: directions not opening when list is below map
+* Fixed: hovering highlight not removed
+* Fixed: on some servers compression settings prevented AJAX calls with output buffering enabled
+
+= 2.73.18 =
+* Fixed: added back ability to programmatically specify center as array of (lat,lng)
+
+= 2.73.17 =
+* Added: KML URL is now output when there is an error loading the KML file
+* Fixed: geocoder not recognizing some locations, including "lat,lng" entries
+
+= 2.73.16 =
+* Fixed: autocomplete not creating new POIs
+
+= 2.73.15 =
+* Changed: replaced JQuery Autocomplete with new search box
+
+= 2.73.14 =
+* Fixed: check for wp-config settings preventing file changes
+
+= 2.73.13 =
+* Fixed: check for wp-config settings preventing file changes
+
+= 2.73.12 =
+* Fixed: inline directions input not working
+
+= 2.73.11 =
+* Fixed: include/exclude not working for taxonomy filters
 
 = 2.73.10 =
 * Fixed: notice on widget screen

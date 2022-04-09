@@ -4,11 +4,11 @@ class Mappress_Poi extends Mappress_Obj {
 		$body = '',
 		$correctedAddress,
 		$iconid,
+		$kml,
 		$point = array('lat' => 0, 'lng' => 0),
 		$poly,
 		$postid,
 		$props = array(),
-		$kml,
 		$thumbnail,
 		$title = '',
 		$type,
@@ -34,7 +34,14 @@ class Mappress_Poi extends Mappress_Obj {
 			return new WP_Error('geocode', 'MapPress Pro required for geocoding');
 
 		// If point has a lat/lng then no geocoding
-		if (!empty($this->point['lat']) && !empty($this->point['lng'])) {
+		$lat = $this->point['lat'];
+		$lng = $this->point['lng'];
+
+		if (!empty($lat) && !empty($lng)) {
+			// Confirm that lat/lng are numbers
+			if (!is_numeric($lat) || !is_numeric($lng))
+				return new WP_Error('latlng', sprintf(__('Invalid lat/lng coordinate: %s,%s', 'mappress-google-maps-for-wordpress'), $lat, $lng));
+			$this->address = "$lat, $lng";
 			$this->viewport = null;
 		} else {
 			$location = Mappress_Geocoder::geocode($this->address);

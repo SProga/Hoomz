@@ -32,6 +32,8 @@ class Mappress_Options extends Mappress_Obj {
 		$language,
 		$layout = 'left',
 		$license,
+		$lines,
+		$lineOpts = array('color' => 'blue', 'weight' => 3, 'opacity' => 1.0),
 		$mapbox,
 		$mapboxStyles = array(),	// deprecated
 		$mashupBody = 'poi',
@@ -100,12 +102,64 @@ class Mappress_Settings {
 
 	static function register() {
 		add_action('wp_ajax_mapp_license_check', array(__CLASS__, 'ajax_license_check'));
+		add_action('wp_ajax_mapp_geocode', array(__CLASS__, 'ajax_geocode'));
 		add_action('wp_ajax_mapp_options_reset', array(__CLASS__, 'ajax_reset'));
 		add_action('wp_ajax_mapp_option_save', array(__CLASS__, 'ajax_option_save'));
 		add_action('wp_ajax_mapp_options_save', array(__CLASS__, 'ajax_options_save'));
 		add_action('wp_ajax_mapp_style_delete', array(__CLASS__, 'ajax_style_delete'));
 		add_action('wp_ajax_mapp_style_save', array(__CLASS__, 'ajax_style_save'));
 		add_action('load-toplevel_page_mappress', array(__CLASS__, 'review_admin_notice'));
+	}
+
+	static function ajax_geocode() {
+		global $wpdb;
+
+		check_ajax_referer('mappress', 'nonce');
+
+		if (!current_user_can('manage_options'))
+			Mappress::ajax_response('Not authorized');
+
+		$batch_size = (isset($_POST['batch_size'])) ? $_POST['batch_size'] : null;
+		$otype = (isset($_POST['otype'])) ? $_POST['otype'] : null;
+		$start = (isset($_POST['start'])) ? $_POST['start'] : null;
+		$skip = (isset($_POST['skip'])) ? $_POST['skip'] : null;
+
+		// Get keys for the object type.  If no keys, nothing to do
+		$keys = Mappress::$options->metaKeys;
+		if (empty($keys))
+			Mappress::ajax_response('OK', array('logs' => array(), 'errors' => array()));
+
+		// Get all meta keys for otype, as a quoted, comma-separated list to be used in sql
+		$string_keys = array_map(function($key) { return "'$key'"; }, $keys);
+		$string_keys = join(',', $string_keys);
+		$meta_table = ($otype == 'post') ? $wpdb->postmeta : $wpdb->usermeta;
+
+		// Read all objects with at least ONE of the mapped keys
+		if ($otype == 'post')
+			$sql = "SELECT DISTINCT post_id AS oid, post_title AS title FROM $wpdb->postmeta INNER JOIN $wpdb->posts ON $wpdb->postmeta.post_id = $wpdb->posts.ID ";
+		else
+			$sql = "SELECT DISTINCT user_id AS oid, user_nicename AS title FROM $wpdb->usermeta INNER JOIN $wpdb->users ON $wpdb->usermeta.user_id = $wpdb->users.ID ";
+
+		$sql .= " WHERE meta_key IN ($string_keys)";
+		$sql .= sprintf(" LIMIT %d, %d", $start, $batch_size);
+
+		$results = $wpdb->get_results($sql);
+		$logs = array();
+
+		// Geocode each object
+		foreach($results as $result) {
+			$msg = Mappress_Meta::create_meta_map($result->oid);
+			$logs[] = array('otype' => $otype, 'oid' => $result->oid, 'title' => $result->title, 'msg' => $msg);
+		}
+
+		// Get errors only when finished
+		$errors = (count($logs) < $batch_size) ? self::get_geocoding_errors($otype) : array();
+
+		// For testing, mp_geocode=10 will stop after 10 rows processed
+		if (isset($_REQUEST['mp_geocode']) && $start > $_REQUEST['mp_geocode'])
+			Mappress::ajax_response('OK', array('logs' => array(), 'errors' => $errors));
+
+		Mappress::ajax_response('OK', array('logs' => $logs, 'errors' => $errors));
 	}
 
 	static function ajax_license_check() {
@@ -245,8 +299,7 @@ class Mappress_Settings {
 
 		// Setup helpers
 		$helpers = (object) array(
-			'demo_map' => self::demo_map(),
-			'geocoding_errors' => self::geocoding_errors(),
+			'geocoding_errors' => self::get_geocoding_errors(),
 			'icon_directory' => (class_exists('Mappress_Icons')) ? Mappress_Icons::$icons_dir : null,
 			'is_multisite' => is_multisite(),
 			'is_super_admin' => is_super_admin(),
@@ -256,9 +309,11 @@ class Mappress_Settings {
 			'license_status' => (Mappress::$pro && Mappress::$options->license) ? Mappress::$updater->get_status() : null,
 			'meta_fields' => self::get_meta_fields(),
 			'meta_keys' => self::get_meta_keys(),
+			'post_edit' => admin_url('post.php'),
 			'post_types' => self::get_post_types(),
 			'taxonomies' => self::get_taxonomies(),
-			'thumbnail_sizes' => self::get_thumbnail_sizes()
+			'thumbnail_sizes' => self::get_thumbnail_sizes(),
+			'user_edit' => admin_url('user-edit.php')
 		);
 		$state->helpers = $helpers;
 		return json_encode($state);
@@ -287,22 +342,33 @@ class Mappress_Settings {
 		$a = $result;
 	}
 
-	static function demo_map() {
-		$poi = new Mappress_Poi(array('address' => 'San Francisco, CA', "title" => "MapPress", "body" => __("Maps for WordPress", 'mappress-google-maps-for-wordpress'), "point" => array('lat' => 37.774095, 'lng' => -122.418731)));
-		$map = new Mappress_Map(array('alignment' => 'default', 'width' => '100%', 'height' => 300,'pois' => array($poi), 'zoom' => 8));
-		return $map;
-	}
-
-	static function geocoding_errors() {
+	static function get_geocoding_errors($otype = null) {
 		$geocoding_errors = array();
-		$query = new WP_Query(array('meta_key' => 'mappress_error', 'posts_per_page' => 20));
-		foreach($query->posts as $post) {
-			$geocoding_errors[] = array(
-				'ID' => $post->ID,
-				'post_title' => $post->post_title,
-				'error' => get_post_meta($post->ID, 'mappress_error', true)
-			);
-		};
+
+		if ($otype == 'post' || $otype == null) {
+			$query = new WP_Query(array('meta_key' => 'mappress_error', 'posts_per_page' => -1, 'orderby' => 'ID', 'order' => 'ASC'));
+			foreach($query->posts as $post) {
+				$geocoding_errors[] = array(
+					'otype' => 'post',
+					'oid' => $post->ID,
+					'title' => $post->post_title,
+					'msg' => get_metadata('post', $post->ID, 'mappress_error', true)
+				);
+			};
+		}
+
+		if ($otype == 'user' || $otype == null) {
+			$query = new WP_User_Query(array('meta_key' => 'mappress_error'));
+			foreach($query->results as $result) {
+				$geocoding_errors[] = array(
+					'otype' => 'user',
+					'oid' => $result->ID,
+					'title' => $result->user_nicename,
+					'msg' => get_metadata('user', $result->ID, 'mappress_error', true)
+				);
+			};
+		}
+
 		return $geocoding_errors;
 	}
 
@@ -313,31 +379,15 @@ class Mappress_Settings {
 		return $fields;
 	}
 
-	static function get_post_types() {
-		$results = array();
-		$post_types = get_post_types(array('show_ui' => true, 'public' => true), 'objects');
-		unset($post_types['mappress_map'], $post_types['attachment']);
-		foreach($post_types as $type => $obj)
-			$results[$type] = $obj->label;
-		return $results;
-	}
-
-
-	static function get_thumbnail_sizes() {
-		// Note: WP doesn't return dimensions, just the size names - ticket is > 6 months old now: http://core.trac.wordpress.org/ticket/18947
-		$sizes = get_intermediate_image_sizes();
-		$sizes = array_combine(array_values($sizes), array_values($sizes));
-		return $sizes;
-	}
-
 	static function get_meta_keys() {
 		global $wpdb;
 		$keys = $wpdb->get_col( "
 			SELECT DISTINCT meta_key
 			FROM $wpdb->postmeta
 			WHERE meta_key NOT in ('_edit_last', '_edit_lock', '_encloseme', '_pingme', '_thumbnail_id')
-			AND meta_key NOT LIKE ('\_wp%')"
-		);
+			AND meta_key NOT LIKE '\_wp%'
+			AND meta_key NOT LIKE '\_oembed%'
+		");
 		$results = (is_array($keys) && !empty($keys)) ? array_combine($keys, $keys) : array();
 		return $results;
 	}
@@ -350,6 +400,16 @@ class Mappress_Settings {
 		return $results;
 	}
 
+	static function get_post_types() {
+		$results = array();
+		$post_types = get_post_types(array('show_ui' => true, 'public' => true), 'objects');
+		unset($post_types['mappress_map'], $post_types['attachment']);
+		foreach($post_types as $type => $obj)
+			$results[$type] = $obj->label;
+		return $results;
+	}
+
+
 	static function get_taxonomies() {
 		$results = array();
 		$tax_objs = get_taxonomies(array('public' => true), 'objects');
@@ -357,6 +417,13 @@ class Mappress_Settings {
 		foreach($tax_objs as $tax_obj)
 			$results[$tax_obj->name] = $tax_obj->label;
 		return $results;
+	}
+
+	static function get_thumbnail_sizes() {
+		// Note: WP doesn't return dimensions, just the size names - ticket is > 6 months old now: http://core.trac.wordpress.org/ticket/18947
+		$sizes = get_intermediate_image_sizes();
+		$sizes = array_combine(array_values($sizes), array_values($sizes));
+		return $sizes;
 	}
 
 	static function get_usage() {
@@ -377,10 +444,28 @@ class Mappress_Settings {
 		$usage->mapbox = (Mappress::$options->mapbox) ? true : false;
 		$usage->autoicons = Mappress::$options->autoicons && Mappress::$options->autoicons['key'];
 		$usage->multisite = is_multisite();
-
-		$usage->assignment1 = $wpdb->get_var("SELECT count(distinct(mapid)) FROM $posts_table GROUP BY mapid HAVING count(*) > 1");
 		$usage->count1 = $wpdb->get_var("SELECT count(*) from $maps_table");
 		return $usage;
+	}
+
+	static function get_user_meta_keys() {
+		global $wpdb;
+		$keys = $wpdb->get_col( "
+			SELECT DISTINCT meta_key
+			FROM $wpdb->usermeta
+			WHERE meta_key NOT IN ('first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'comment_shortcuts', 'admin_color', 'jabber', 'aim',
+				'yim', 'default_password_nag', 'use_ssl', 'show_admin_bar_front', 'show_welcome_panel', 'dismissed_wp_pointers', 'nav_menu_recently_edited',
+				'managenav-menuscolumnshidden', 'wp_capabilities', 'wp_user_level', 'wp_dashboard_quick_press_last_post_id', 'wp_user-settings', 'wp_user-settings-time',
+				'locale', 'session_tokens', 'syntax_highlighting', 'enable_custom_fields', 'mappress_dismissed', 'wp_media_library_mode', 'edit_post_per_page'
+			)
+			AND meta_key NOT LIKE 'closedpostboxes%'
+			AND meta_key NOT LIKE 'metaboxhidden%'
+			AND meta_key NOT LIKE 'meta-box-order%'
+			AND meta_key NOT LIKE 'screen_layout%'
+		");
+
+		$results = (is_array($keys) && !empty($keys)) ? array_combine($keys, $keys) : array();
+		return $results;
 	}
 
 	static function review_admin_notice() {

@@ -11,32 +11,6 @@ get_header();
             <i class="fa fa-filter" aria-hidden="true"></i><span> Filter Hoomz</span>
         </div>
 
-        <?php 
-            if(isset($search)) {
-                $arr_params = array( 
-                    'location' => $_GET['location'],
-                    'type' => $_GET['type'],
-                    'category' => $_GET['category'],
-                    'price' => $_GET['price']
-                 );
-          
-                $hoomz = new WP_Query(array(
-                    'posts_per_page' => -1,
-                    'post_type' => 'hoom',
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'hoom',
-                            'field'    => 'slug',
-                            'terms'    => array( 'st.philip' ),
-                        ),
-                    ),
-                ));
-
-                print_r($hoomz);
-            }
-
-        ?>
-
         <form action="?" class="form__filter">
             <div class=" form__group">
                 <label for="type" class="form__label">Type</label>
@@ -51,14 +25,15 @@ get_header();
                 <label for="location" class="form__label">location</label>
                 <select name="location" id="location" class="form__input">
                     <option value="none" selected disabled hidden>Select a parish</option>
-                    <option value="stphilip">st.philip</option>
-                    <option value="christchurch">christ church</option>
+                    <option value="St.Philip">st.philip</option>
+                    <option value="Christ Church">christ church</option>
                 </select>
             </div>
             <div class="form__group">
                 <label for="type" class="form__label">category</label>
                 <select name="category" id="type" class="form__input">
                     <option value="none" selected disabled hidden>Select a category</option>
+                    <option value="family house">family house</option>
                     <option value="luxury">luxury</option>
                     <option value="townhouse">town house</option>
                     <option value="appartments">appartment</option>
@@ -81,7 +56,7 @@ get_header();
                         < $500,000 </option>
                 </select>
             </div>
-            <button type="submit" class="btn--submit btn_test" name="search">Search</button>
+            <button type="submit" class="btn--submit btn_test">Search</button>
         </form>
     </div>
 
@@ -94,11 +69,47 @@ get_header();
 
 
             <div class="catalog__cards">
+
                 <?php
-                $hoomz = new WP_Query(array(
-                'posts_per_page' => -1,
-                'post_type' => 'hoom'
-                ));
+               
+                if($_GET) {   
+
+                    $keys = array("location","type","category","price");
+                    $query = array();
+                    
+                    if(isset($_GET['location']) && !empty($_GET['location'])) {
+                        $location = array('key' => 'hoomz_parish','value' => $_GET['location']);
+                        $query[] = $location;
+                    }
+                    if(isset($_GET['type']) && !empty($_GET['type'])) {
+                        $type = array('key' => 'hoomz_type','value' => $_GET['type']);
+                        $query[] = $type;
+                    }
+                   
+                    if(isset($_GET['category']) && !empty($_GET['category'])) {
+                        $category = array('key' => 'hoomz_category','value' => $_GET['category']);
+                        $query[] = $category;
+                    }
+                   
+                    if(isset($_GET['price']) && !empty($_GET['price'])) {
+                        $price = array('key' => 'hoomz_price','value' => $_GET['price']);
+                        $query[] = $price;
+                    }               
+              
+                    $to_Arr = array_values($query);
+                    print_r(...$to_Arr);
+
+                    $hoomz = new WP_Query(array(
+                        'posts_per_page' => -1,
+                        'post_type' => 'hoom',
+                        'meta_query' => []
+                    ));
+                } else {
+                    $hoomz = new WP_Query(array(
+                        'posts_per_page' => -1,
+                        'post_type' => 'hoom'
+                        ));
+                }
 
                 $delay = 1;
                 while($hoomz->have_posts()) {
