@@ -2,6 +2,12 @@
 get_header(); 
 ?>
 
+<?php 
+
+$select_types = get_field_object('hoomz_type');
+$select_parish = get_field_object('hoomz_parish');
+$select_cat = get_field_object('hoomz_category');
+?>
 
 <main class="archive_hoomz">
 
@@ -16,44 +22,40 @@ get_header();
                 <label for="type" class="form__label">Type</label>
                 <select name="type" id="" class="form__input">
                     <option value="none" selected disabled hidden>Select a type</option>
-                    <option value="rent">Rent</option>
-                    <option value="buy">Buy</option>
-                    <option value="sell">Sell</option>
+                    <?php foreach($select_types['choices'] as $choice) { ?>
+                    <option value="<?php echo $choice ?>"><?php echo $choice ?></option>
+                    <?php  } ?>
                 </select>
             </div>
             <div class="form__group">
                 <label for="location" class="form__label">location</label>
                 <select name="location" id="location" class="form__input">
                     <option value="none" selected disabled hidden>Select a parish</option>
-                    <option value="St.Philip">st.philip</option>
-                    <option value="Christ Church">christ church</option>
+                    <?php foreach($select_parish['choices'] as $choice) { ?>
+                    <option value="<?php echo $choice ?>"><?php echo $choice ?></option>
+                    <?php  } ?>
                 </select>
             </div>
             <div class="form__group">
                 <label for="type" class="form__label">category</label>
                 <select name="category" id="type" class="form__input">
                     <option value="none" selected disabled hidden>Select a category</option>
-                    <option value="family house">family house</option>
-                    <option value="luxury">luxury</option>
-                    <option value="townhouse">town house</option>
-                    <option value="appartments">appartment</option>
-                    <option value="cottage">cottage</option>
-                    <option value="beachhouse">beach house</option>
-                    <option value="farmhouse">farm house</option>
-                    <option value="any">any</option>
+                    <?php foreach($select_cat['choices'] as $choice) { ?>
+                    <option value="<?php echo $choice ?>"><?php echo $choice ?></option>
+                    <?php  } ?>
                 </select>
             </div>
             <div class="form__group">
                 <label for="price" class="form__label">price</label>
                 <select name="price" id="type" class="form__input">
                     <option value="none" selected disabled hidden>Select price range</option>
-                    <option value=">100">> $100,000 </option>
-                    <option value="<100">
+                    <option value="> 100000"> > $100,000 </option>
+                    <option value="< 100000">
                         < $100,000 </option>
-                    <option value=">500">
-                        > $500,000 </option>
-                    <option value="<500">
-                        < $500,000 </option>
+                    <option value="> 200000">
+                        > $200,000 </option>
+                    <option value="< 200000">
+                        < $200,000 </option>
                 </select>
             </div>
             <button type="submit" class="btn--submit btn_test">Search</button>
@@ -92,18 +94,20 @@ get_header();
                     }
                    
                     if(isset($_GET['price']) && !empty($_GET['price'])) {
-                        $price = array('key' => 'hoomz_price','value' => $_GET['price']);
+                        $options = explode(" ", $_GET['price']);
+                        $price = array('key' => 'hoomz_price','compare' => $options[0],'value' => $options[1],'type' => 'numeric');
                         $query[] = $price;
                     }               
               
-                    $to_Arr = array_values($query);
-                    print_r(...$to_Arr);
+                    $meta_query = array_values($query);
+                
 
                     $hoomz = new WP_Query(array(
                         'posts_per_page' => -1,
                         'post_type' => 'hoom',
-                        'meta_query' => []
+                        'meta_query' => [...$meta_query]
                     ));
+
                 } else {
                     $hoomz = new WP_Query(array(
                         'posts_per_page' => -1,
@@ -112,6 +116,13 @@ get_header();
                 }
 
                 $delay = 1;
+                
+                
+                if(!$hoomz->have_posts()) { ?>
+                <div class="hoomz_empty">
+                    <h1 class="hoomz_empty-text">No matching Hoomz were found.</h1>
+                </div>
+                <?php } else {
                 while($hoomz->have_posts()) {
                 $hoomz->the_post();
                 $image = get_field('hoomz_image')['sizes']['medium'];
@@ -157,7 +168,8 @@ get_header();
                             class="highlight-3"><?php echo the_field('hoomz_owner') ?></span></p>
                 </div>
                 <?php $delay++ ?>
-                <?php } ?>
+                <?php }
+                } ?>
             </div>
 
         </div>

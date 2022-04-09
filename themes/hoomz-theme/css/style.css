@@ -660,6 +660,20 @@ footer.footer {
 .fa-filter {
 	color: var(--complimentaryColorDarker);
 }
+
+/* HOOMZ ARCHIVED */
+
+.hoomz_empty {
+	min-height: 50vh;
+	display: grid;
+	justify-items: center;
+	width: 100%;
+}
+.hoomz_empty-text {
+	font-size: 4rem;
+	text-align: center;
+}
+
 @media only screen and (max-width: 1200px) {
 	.connect {
 		background-size: cover;
@@ -679,4 +693,4 @@ footer.footer {
 		text-align: center;
 		margin: 0 auto;
 	}
-}
+} ;
