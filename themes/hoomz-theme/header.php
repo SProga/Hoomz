@@ -25,7 +25,7 @@
                     <?php if (!is_user_logged_in()) { ?>
                     <a href="<?php echo site_url("/signin")?>" class="btn btn--nav nav__link">Sign in</a>
                     <?php } else { ?>
-                    <a href="<?php echo wp_logout_url(home_url()); ?>" class="btn btn--nav nav__link">Log Out</a>
+                    <a href="<?php echo wp_logout_url(get_permalink()); ?>" class="btn btn--nav nav__link">Log Out</a>
                     <?php } ?>
                 </div>
             </nav>

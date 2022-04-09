@@ -11,6 +11,32 @@ get_header();
             <i class="fa fa-filter" aria-hidden="true"></i><span> Filter Hoomz</span>
         </div>
 
+        <?php 
+            if(isset($search)) {
+                $arr_params = array( 
+                    'location' => $_GET['location'],
+                    'type' => $_GET['type'],
+                    'category' => $_GET['category'],
+                    'price' => $_GET['price']
+                 );
+          
+                $hoomz = new WP_Query(array(
+                    'posts_per_page' => -1,
+                    'post_type' => 'hoom',
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'hoom',
+                            'field'    => 'slug',
+                            'terms'    => array( 'st.philip' ),
+                        ),
+                    ),
+                ));
+
+                print_r($hoomz);
+            }
+
+        ?>
+
         <form action="?" class="form__filter">
             <div class=" form__group">
                 <label for="type" class="form__label">Type</label>
@@ -55,7 +81,7 @@ get_header();
                         < $500,000 </option>
                 </select>
             </div>
-            <button type="button" class="btn--submit btn_test">Search</button>
+            <button type="submit" class="btn--submit btn_test" name="search">Search</button>
         </form>
     </div>
 

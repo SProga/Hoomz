@@ -12,12 +12,15 @@ if(!$user_ID) {
             $login_array = array();
             $login_array["user_login"] = $username;
             $login_array["user_password"] = $password;
-            $login_array['remember'] = $remember;
+            // $login_array['remember'] = $remember;
 
-           $verify_user =  wp_signon($login_array,true);
-
+           $verify_user =  wp_signon($login_array,false);
+        
            if(!is_wp_error($verify_user)) {
-              echo "<script> window.location = '".site_url()."'</script>";
+            wp_set_current_user( $user->ID, $username);
+            do_action('set_current_user');
+            echo "<script> window.location = '".site_url()."'</script>";
+            exit();
            }
 
         } else {
@@ -32,7 +35,7 @@ if(!$user_ID) {
                             class="highlight-blue">#1</span> Realtors In Barbados</h1>
                 </div>
                 <div class="content-right">
-                    <form action="#" class="form__signup" data-aos="zoom-in" method="POST">
+                    <form action="?" class="form__signup" data-aos="zoom-in" method="POST">
                         <h1 class="signup__title"><span class="highlight-colored">SignIn</span> Hoomz</h1>
                         <div class="form__signup__group">
                             <label for="username">Username</label>

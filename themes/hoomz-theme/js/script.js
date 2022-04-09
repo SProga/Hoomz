@@ -43,32 +43,22 @@ jQuery(document).ready(function ($) {
 		};
 	}
 
-	let btn = $(".btn--submit").on("click", getInputs);
+	// let btn = $(".btn--submit").on("click", getInputs);
 
-	function getInputs(e) {
-		let type = $("[name='type']").val();
-		let category = $("[name='category'").val();
-		let price = $("[name='price']").val();
-		let location = $("[name='location'").val();
-		let data = {
-			type,
-			category,
-			price,
-			location,
-		};
+	// function getInputs(e) {
+	// 	let type = $("[name='type']").val();
+	// 	let category = $("[name='category']").val();
+	// 	let price = $("[name='price']").val();
+	// 	let location = $("[name='location']").val();
 
-		console.log("send", data);
+	// 	let url =
+	// 		hoomzData.root_url +
+	// 		`/wp-json/hoomz/v1/homes?type=${type}&category=${category}&price=${price}&location=${location}`;
 
-		let url = hoomzData.root_url + "/wp-json/hoomz/v1/search";
-
-		fetch(url, {
-			method: "GET",
-			data,
-		})
-			.then((res) => res.json())
-			.then((res) => console.log(res));
-		// e.preventDefault();
-		// let form = $(".form__filter");
-		// console.dir(form);
-	}
+	// 	$.getJSON(url, (results) => {
+	// 		console.log(results);
+	// 	});
+	// 	// e.preventDefault();
+	// 	// let form = $(".form__filter");
+	// } // console.dir(form);
 });

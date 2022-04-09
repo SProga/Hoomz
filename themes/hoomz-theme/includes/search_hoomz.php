@@ -4,16 +4,17 @@
 add_action('rest_api_init' , 'hoomzRegisterSearch');
 
 function hoomzRegisterSearch() {
-    register_rest_route('hoomz/v1','search', array(
-        'methods' => WP_REST_SERVER::READABLE,
-        'callback' => 'hoomzSearchResults'
+    register_rest_route('hoomz/v1','/homes', array(
+        'methods' => 'GET',
+        'callback' => 'get_homes'
     ));
 }
 
-function hoomzSearchResults($data) {
+function get_homes($data) {
+    return json_encode($data);
     $Queries = new WP_Query(array(
         'post_type' => array('post','page','hoom'),
-        's' => sanitize_text_field($data['term'])
+        's' => sanitize_text_field($data['location'])
     ));
     
     $results = array(

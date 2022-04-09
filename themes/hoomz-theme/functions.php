@@ -31,16 +31,14 @@ function hoomz_features() {
 
 function redirect_to_login() {
         wp_redirect(site_url()."/signin");
-        exit;
+        exit();
 }
 
 function fn_redirect_wp_admin() {
     global $pagenow;
-
-
-    if($pagenow == 'wp-login.php' && $_GET['action'] != 'logout') {
+    if($pagenow == 'wp-login.php' && $_GET['action'] != 'logout' && !is_user_logged_in()) {
         wp_redirect(home_url() . "/signin");
-        exit;
+        exit();
     }
 }
 
