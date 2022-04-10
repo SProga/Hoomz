@@ -116,7 +116,15 @@ $select_cat = get_field_object('hoomz_category');
                             ));
                     }
 
-                    $delay = 1;
+                    if(!$hoomz->have_posts()) { ?>
+                <div class="hoomz_empty">
+                    <h1 class="hoomz_empty-text">No matching Hoomz were found.</h1>
+                    <img class="hoomz_empty-img" src="<?php echo get_theme_file_uri('/images/embarrassed.png'); ?>">
+                    <button class="btn btn--read mt-l">load all hoomz</button>
+                </div>
+                <?php } else {
+                    
+                     $delay = 1;
                     while($hoomz->have_posts()) {
                     $hoomz->the_post(); 
                     $location = get_field('hoomz_location');
@@ -149,7 +157,8 @@ $select_cat = get_field_object('hoomz_category');
                     'sqfeet' => $sqfeet,
                     'delay' => 1
                     ));
-                    } ?>
+                    }
+                } ?>
             </div>
 
         </div>
