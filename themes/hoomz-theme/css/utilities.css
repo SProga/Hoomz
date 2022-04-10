@@ -9,6 +9,9 @@
 .my-m {
 	margin: 2rem 0;
 }
+.mt-sm {
+	margin-top: 1rem;
+}
 
 .highlight-blue {
 	color: rgb(3, 194, 187);

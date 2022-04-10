@@ -68,7 +68,7 @@ if(!$user_ID) {
                             <a href="/"><img src="<?php echo get_theme_file_uri('/images/google.svg'); ?>" alt=""></a>
                         </div>
                         <div class="form__signup__group">
-                            <p class="no-account-text">Don't have an account? <a href="/">Sign Up</a></p>
+                            <p class="no-account-text">Don't have an account? <a href="/signup">Sign Up</a></p>
                         </div>
                     </form>
                 </div>

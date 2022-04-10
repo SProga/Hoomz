@@ -7,6 +7,14 @@ section.signin {
 	flex: 0 0 50%;
 }
 
+.content-left.content-signup-left {
+	flex: 0 0 30%;
+}
+
+.content-right.content-signup-right {
+	flex: 1;
+}
+
 .signin__title {
 	font-size: calc(var(--headerSize) * 1.8);
 	word-wrap: break-word;
@@ -51,10 +59,26 @@ section.signin {
 	width: 80%;
 	min-height: 40rem;
 }
+
+.form__signup__flex {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+.form__flex__group {
+	display: flex;
+	gap: 10px;
+	flex-direction: column;
+	width: 45%;
+	flex-wrap: wrap;
+}
+.form__flex__group input {
+	flex: 1;
+}
 .form__signup__group {
 	display: flex;
 	flex-direction: column;
-	flex-wrap: wrap;
 	width: 100%;
 	margin: 1rem 0;
 	gap: 10px;
@@ -88,6 +112,7 @@ input[type="checkbox"] {
 	cursor: pointer;
 }
 .form__signup__group :is(label, button, .reset_password),
+.form__flex__group :is(label),
 .form__inline {
 	font-size: var(--textSizelarger);
 	text-transform: capitalize;
