@@ -16,3 +16,8 @@
 .highlight-blue {
 	color: rgb(3, 194, 187);
 }
+
+.error {
+	color: red;
+	font-size: 1.2rem;
+}

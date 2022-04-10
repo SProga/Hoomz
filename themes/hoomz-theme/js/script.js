@@ -7,6 +7,10 @@ jQuery(document).ready(function ($) {
 	const heroImages = ["hero.png", "Indoor.png", "Indoor-2.png"];
 	const $bin_filter = $(".search-filter");
 	const $type = $(".search-type");
+	let username = $("[name='username']");
+	let password = $("[name='password']");
+	username.data("error", false);
+	password.data("error", false);
 
 	console.log($bin_filter);
 
@@ -54,7 +58,33 @@ jQuery(document).ready(function ($) {
 		};
 	}
 
-	// let btn = $(".btn--submit").on("click", getInputs);
+	$(".btn--signin").on("click", getInputs.bind(null, true));
+
+	$(username)
+		.add(password)
+		.on("focusin", function () {
+			$(this).next(".error").data("error", false);
+			$(this).next(".error").remove();
+		});
+	$(username).add(password).on("focusout", getInputs);
+
+	function getInputs(clicked = null) {
+		if (username.val().trim() == "") {
+			username
+				.parent()
+				.append(`<span class="error">username cannot be empty</span>`);
+			return;
+		}
+		if (password.val().trim() == "") {
+			password
+				.parent()
+				.append(`<span class="error">password cannot be empty</span>`);
+			return;
+		}
+		if (clicked) {
+			$(".form__signup").submit();
+		}
+	}
 
 	// function getInputs(e) {
 	// 	let type = $("[name='type']").val();

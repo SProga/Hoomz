@@ -61,7 +61,7 @@ if(!$user_ID) {
                         </div>
 
                         <div class="form__signup__group">
-                            <button class="btn--signin">Sign In</button>
+                            <button type="button" class="btn--signin">Sign In</button>
                         </div>
                         <div class="form__signup__group-inline">
                             <a href="/"><img src="<?php echo get_theme_file_uri('/images/facebook.svg'); ?>" alt=""></a>
