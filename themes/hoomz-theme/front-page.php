@@ -101,9 +101,9 @@ $select_cat = get_field_object('field_6251b9047d29d');
                             <option value="< 10000">
                                 < $100,000 </option>
                             <option value="> 20000">
-                                > $500,000 </option>
+                                > $200,000 </option>
                             <option value="< 20000">
-                                < $500,000 </option>
+                                < $200,000 </option>
                         </select>
                     </div>
                     <button type="submit" class="btn--submit">Search</button>

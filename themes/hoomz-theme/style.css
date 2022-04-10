@@ -127,6 +127,10 @@ a.nav__link:not(.btn):hover {
 	background-color: var(--white);
 	transition: all 0.3s ease-in-out;
 }
+a.nav__link.btn--nav:hover {
+	background-color: var(--white);
+	color: var(--textColor);
+}
 
 .hero {
 	position: relative;
@@ -236,6 +240,15 @@ a.nav__link:not(.btn):hover {
 	border: 1px solid var(--complimentaryColorDarker);
 	color: var(--complimentaryColorDarker);
 }
+.btn--card:hover {
+	background-color: var(--textColor);
+	color: var(--white);
+}
+.btn--card-outline:hover {
+	background-color: var(--complimentaryColorDarker);
+	color: var(--white);
+}
+
 /* End Categories */
 
 /* Hoomz-filters */
