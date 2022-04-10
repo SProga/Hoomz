@@ -34,11 +34,11 @@ if(!$user_ID) {
         <div class="overlay">
             <div class="container flex-container">
                 <div class="content-left">
-                    <h1 class="signin__title" data-aos="zoom-in-left" data-aos-delay="1000"><span
-                            class="highlight-blue">#1</span> Realtors In Barbados</h1>
+                    <h1 class="signin__title" data-aos="zoom-in-left"><span class="highlight-blue">#1</span> Realtors In
+                        Barbados</h1>
                 </div>
                 <div class="content-right">
-                    <form action="?" class="form__signup" data-aos="zoom-in" method="POST">
+                    <form action="?" class="form__signup" method="POST">
                         <h1 class="signup__title"><span class="highlight-colored">SignIn</span> Hoomz</h1>
                         <div class="form__signup__group">
                             <label for="username">Username</label>

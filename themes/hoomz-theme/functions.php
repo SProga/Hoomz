@@ -23,6 +23,11 @@ add_action('wp_enqueue_scripts','hoomz_files'); //needs to parameters
 
 
 
+function hoomz_card_template($args = NULL) {
+    get_template_part( 'templates/template','card', $args);
+}
+
+
 function hoomz_features() {
     add_theme_support('title-tag');
     add_image_size('homeLandscape',600,460,true);
