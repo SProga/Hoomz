@@ -47,7 +47,13 @@ $select_cat = get_field_object('field_6251b9047d29d');
                     <h1 class="categories__cards-title mt-s ">Sell a Home</h1>
                     <p class="categories__cards-subtitle mt-s ">Thinking about selling or renting a property.Hoomz is
                         the place to do it.Over 400 homes sold.</p>
-                    <a href="#" class="btn btn--card mt-s">Sell home</a>
+                    <a href="<?php 
+                        if(!is_user_logged_in(  )) {
+                            echo site_url("/signin");
+                        } else {
+                            echo "#";
+                        } 
+                    ?>" class="btn btn--card mt-s">Sell home</a>
 
                 </div>
             </div>
